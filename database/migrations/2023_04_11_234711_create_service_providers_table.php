@@ -11,21 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('service_providers', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string("full_name");
             $table->string("username")->unique();
+            $table->string("email")->unique();
+            $table->string("password");
+            $table->string("email_verified_at")->nullable();
+            $table->boolean("is_active")->default(true);
+            $table->string("self_description");
+            $table->string("skill_description");
             $table->string("country");
             $table->string("city");
             $table->string("state");
             $table->string("zip_code");
             $table->string("birthdate");
-            $table->boolean("is_active")->default(true);
 
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('service_providers');
     }
 };
