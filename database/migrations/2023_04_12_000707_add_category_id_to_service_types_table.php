@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('service_types', function (Blueprint $table) {
             //
-            $table->foreignId("category_id")->constrained("categories")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("category_id")->constrained("service_categories")->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
