@@ -25,23 +25,22 @@
                         <table id="order-listing" class="table">
                             <thead>
                             <tr>
-                                <th>Full Name</th>
-                                <th>Email</th>
+                                <th>Category Name</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($categories as $category)
                                 <tr>
-                                    <td>{{ $category->full_name }}</td>
-                                    <td>{{ $category->email }}</td>
+                                    <td>{{ $category->name }}</td>
+
                                     <td>
                                         <button  type="button" class="btn btn-outline-primary"
                                                  data-toggle="modal" data-target="#edit-admin-{{$category->id}}">edit</button>
                                         @include("admin.category.edit" ,["admin" => $category])
                                         <button class="btn btn-outline-danger" onclick=" event.preventDefault();
                                             document.getElementById('delete-admin-{{$category->id}}').submit(); ">delete</button>
-                                        <form action="{{ route('admin.admins.delete',$category) }}" method="post" id="delete-admin-{{$category->id}}">
+                                        <form action="{{ route('admin.categories.delete',$category) }}" method="post" id="delete-admin-{{$category->id}}">
                                             @csrf
                                             @method("DELETE")
                                         </form>
@@ -76,9 +75,26 @@
                 position: 'top-right'
             })
         };
+        showDangerToast = function(text) {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Danger',
+                text: text,
+                showHideTransition: 'slide',
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        };
+        @foreach($errors->all() as $error)
+        showDangerToast("{{ $error }}")
+        @endforeach
         @if(session()->has("success"))
             showSuccessToast();
         @endif
+
+
+
     </script>
-    <button type="button" class="btn btn-success btn-fw" onclick="showSuccessToast()">Success</button>
 @endsection

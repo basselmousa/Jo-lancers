@@ -25,16 +25,18 @@
                         <table id="order-listing" class="table">
                             <thead>
                             <tr>
-                                <th>Full Name</th>
-                                <th>Email</th>
+                                <th>Currency Name</th>
+                                <th>ISO Code</th>
+                                <th>Sign</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($currencies as $currency)
                                 <tr>
-                                    <td>{{ $currency->full_name }}</td>
-                                    <td>{{ $currency->email }}</td>
+                                    <td>{{ $currency->cur_name }}</td>
+                                    <td>{{ $currency->iso_code }}</td>
+                                    <td>{{ $currency->sign }}</td>
                                     <td>
                                         <button  type="button" class="btn btn-outline-primary"
                                                  data-toggle="modal" data-target="#edit-admin-{{$currency->id}}">edit</button>
@@ -76,9 +78,23 @@
                 position: 'top-right'
             })
         };
+        showDangerToast = function(text) {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Danger',
+                text: text,
+                showHideTransition: 'slide',
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        };
+        @foreach($errors->all() as $error)
+            showDangerToast("{{ $error }}")
+        @endforeach
         @if(session()->has("success"))
             showSuccessToast();
         @endif
     </script>
-    <button type="button" class="btn btn-success btn-fw" onclick="showSuccessToast()">Success</button>
 @endsection

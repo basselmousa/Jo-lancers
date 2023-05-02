@@ -2,26 +2,26 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel-2">Add Admin</h5>
+                <h5 class="modal-title" id="exampleModalLabel-2">Add Currency</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="{{ route('admin.admins.add') }}" method="post" id="add-admin-form" class="forms-sample">
+                    <form action="{{ route('admin.currencies.add') }}" method="post" id="add-admin-form" class="forms-sample">
                         @csrf
                         <div class="form-group">
-                            <label for="exampleInputUsername1">Full Name</label>
-                            <input name="full_name" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                            <label for="exampleInputUsername1">Currency Name</label>
+                            <input name="cur_name" type="text" class="form-control" id="exampleInputUsername1" placeholder="Currency Name">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email</label>
-                            <input name="email" type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <label for="exampleInputEmail1">ISO Code</label>
+                            <input name="iso_code" type="text" class="form-control" id="exampleInputEmail1" placeholder="ISO Code">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="exampleInputPassword1">Sign</label>
+                            <input name="sign" type="text" class="form-control" id="exampleInputPassword1" placeholder="Sign">
                         </div>
                     </form>
                 </div>

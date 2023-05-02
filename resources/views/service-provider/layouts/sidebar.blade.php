@@ -7,7 +7,7 @@
                 </div>
                 <div class="profile-name">
                     <p class="name">
-                        Welcome {{ auth("admin")->user()->full_name }}
+                        Welcome {{ auth("provider")->user()->full_name }}
                     </p>
 {{--                    <p class="designation">--}}
 {{--                        Super Admin--}}

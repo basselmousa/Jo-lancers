@@ -9,20 +9,28 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="{{ route('admin.admins.update',$admin) }}" method="post" id="edit-admin-form-{{$admin->id}}" class="forms-sample">
+                    <form action="{{ route('admin.skills.update',$admin) }}" method="post" id="edit-admin-form-{{$admin->id}}" class="forms-sample">
                         @csrf
                         @method("PUT")
                         <div class="form-group">
-                            <label for="exampleInputUsername1">Full Name</label>
-                            <input name="full_name" value="{{$admin->full_name}}" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                            <label for="exampleInputUsername1">Skill Name</label>
+                            <input name="name" value="{{$admin->name}}" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email</label>
-                            <input name="email" type="email" value="{{$admin->email}}" disabled class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <label for="exampleInputEmail1">Skill Code</label>
+                            <input name="alt_code" type="text" value="{{$admin->alt_code}}"
+                                   class="form-control" id="exampleInputEmail1" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="exampleInputEmail1">Category</label>
+                            <select class="js-example-basic-single " name="category_id" style="width: 400px">
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $category->id == $admin->category_id  ? 'selected' : ''  }}>{{ $category->name }}</option>
+
+                                @endforeach
+
+                            </select>
+                            {{--                            <input name="alt_code" type="text" class="form-control" id="exampleInputEmail1" placeholder="Email">--}}
                         </div>
                     </form>
                 </div>

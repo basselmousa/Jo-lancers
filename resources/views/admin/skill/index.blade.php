@@ -1,8 +1,8 @@
-@extends("admin.layouts.app")
+    @extends("admin.layouts.app")
 
 
 
-@section("content")
+    @section("content")
 
     <div class="page-header">
         <h3 class="page-title">
@@ -25,23 +25,25 @@
                         <table id="order-listing" class="table">
                             <thead>
                             <tr>
-                                <th>Full Name</th>
-                                <th>Email</th>
+                                <th>Skill Name</th>
+                                <th>Skill Code</th>
+                                <th>Category Name</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($skills as $skill)
                                 <tr>
-                                    <td>{{ $skill->full_name }}</td>
-                                    <td>{{ $skill->email }}</td>
+                                    <td>{{ $skill->name }}</td>
+                                    <td>{{ $skill->alt_code }}</td>
+                                    <td>{{ $skill->category->name }}</td>
                                     <td>
                                         <button  type="button" class="btn btn-outline-primary"
                                                  data-toggle="modal" data-target="#edit-admin-{{$skill->id}}">edit</button>
                                         @include("admin.skill.edit" ,["admin" => $skill])
                                         <button class="btn btn-outline-danger" onclick=" event.preventDefault();
                                             document.getElementById('delete-admin-{{$skill->id}}').submit(); ">delete</button>
-                                        <form action="{{ route('admin.admins.delete',$skill) }}" method="post" id="delete-admin-{{$skill->id}}">
+                                        <form action="{{ route('admin.skills.delete',$skill) }}" method="post" id="delete-admin-{{$skill->id}}">
                                             @csrf
                                             @method("DELETE")
                                         </form>
@@ -63,6 +65,7 @@
 @section("js")
     <script src="{{asset("admin/js/toastDemo.js")}}"></script>
     <script src="{{asset("admin/js/desktop-notification.js")}}"></script>
+    <script src="{{asset("admin/js/select2.js")}}"></script>
     <script>
         showSuccessToast = function() {
             'use strict';
@@ -76,9 +79,23 @@
                 position: 'top-right'
             })
         };
+        showDangerToast = function(text) {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Danger',
+                text: text,
+                showHideTransition: 'slide',
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        };
+        @foreach($errors->all() as $error)
+            showDangerToast("{{ $error }}")
+        @endforeach
         @if(session()->has("success"))
             showSuccessToast();
         @endif
     </script>
-    <button type="button" class="btn btn-success btn-fw" onclick="showSuccessToast()">Success</button>
 @endsection

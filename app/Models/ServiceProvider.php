@@ -11,4 +11,5 @@ use Laravel\Sanctum\HasApiTokens;
 class ServiceProvider extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    protected $guarded =[];
 }

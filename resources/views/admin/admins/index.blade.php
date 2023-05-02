@@ -76,6 +76,21 @@
                 position: 'top-right'
             })
         };
+        showDangerToast = function(text) {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Danger',
+                text: text,
+                showHideTransition: 'slide',
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        };
+        @foreach($errors->all() as $error)
+            showDangerToast("{{ $error }}")
+        @endforeach
         @if(session()->has("success"))
             showSuccessToast();
         @endif
