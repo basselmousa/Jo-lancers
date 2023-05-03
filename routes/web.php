@@ -65,16 +65,24 @@ Route::group(["prefix" => "admin", "as" => "admin."], function () {
 });
 Route::group(["prefix" => "provider", "as" => "provider."], function () {
     Route::group(["prefix" => "auth", "as" => "auth."], function () {
-        Route::get("login", [\App\Http\Controllers\Provider\ServiceProviderAuthController::class, "showLogin"])->name("showLogin");
-        Route::post("login", [\App\Http\Controllers\Provider\ServiceProviderAuthController::class, "login"])->name("login");
-        Route::post("logout", [\App\Http\Controllers\Provider\ServiceProviderAuthController::class, "logout"])->name("logout");
-        Route::get("register", [\App\Http\Controllers\Provider\ServiceProviderAuthController::class, "showRegister"])->name("showRegister");
-        Route::post("register", [\App\Http\Controllers\Provider\ServiceProviderAuthController::class, "register"])->name("register");
+        Route::get("login", [\App\Http\Controllers\ServiceProvider\AuthController::class, "showLogin"])->name("showLogin");
+        Route::post("login", [\App\Http\Controllers\ServiceProvider\AuthController::class, "login"])->name("login");
+        Route::post("logout", [\App\Http\Controllers\ServiceProvider\AuthController::class, "logout"])->name("logout");
+        Route::get("register", [\App\Http\Controllers\ServiceProvider\AuthController::class, "showRegister"])->name("showRegister");
+        Route::post("register", [\App\Http\Controllers\ServiceProvider\AuthController::class, "register"])->name("register");
     });
     Route::group(["middleware" => "auth:provider"], function () {
 
         Route::group(["prefix" => "profile", "as" => "profile."], function () {
-            Route::get("/", [\App\Http\Controllers\Provider\ServiceProviderProfileController::class, "index"])->name("index");
+            Route::get("/", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "index"])->name("index");
+            Route::post("/addSkill", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "addSkill"])->name("addSkill");
+            Route::put("/updateProfile", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "updateProfile"])->name("updateProfile");
+        });
+
+        Route::group(["prefix" => "skill", "as" => "skill."],function (){
+            Route::get("/", [\App\Http\Controllers\ServiceProvider\SkillController::class, "index"])->name("index");
+            Route::delete("/deleteSkill/{type}", [\App\Http\Controllers\ServiceProvider\SkillController::class, "delete"])->name("deleteSkill");
+
         });
 
     });

@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="{{asset("admin/css/style.css")}}">
     <!-- endinject -->
     {{--    <link rel="shortcut icon" href="../../images/favicon.png" />--}}
+    <style>
+        .invalid-feedback{
+            display: block !important;
+        }
+    </style>
 </head>
 
 <body>

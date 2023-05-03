@@ -16,29 +16,36 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route("admin.admins.index") }}">
+            <a class="nav-link" href="#">
                 <i class="fa fa-users menu-icon"></i>
-                <span class="menu-title">Admins</span>
+                <span class="menu-title">Your Bids</span>
             </a>
         </li>
 
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route("admin.currencies.index") }}">
+            <a class="nav-link" href="{{ route("provider.skill.index") }}">
                 <i class="fas fa-dollar-sign menu-icon"></i>
-                <span class="menu-title">Currencies</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route("admin.skills.index") }}">
-                <i class="fas fa-fill-drip menu-icon"></i>
                 <span class="menu-title">Skills</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route("admin.categories.index") }}">
+            <a class="nav-link" href="#">
+                <i class="fas fa-fill-drip menu-icon"></i>
+                <span class="menu-title">Rate</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
                 <i class="fas fa-list menu-icon"></i>
-                <span class="menu-title">Categories</span>
+                <span class="menu-title">Complaints</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route("provider.profile.index") }}">
+                <i class="fas fa-list menu-icon"></i>
+                <span class="menu-title">Profile</span>
             </a>
         </li>
 

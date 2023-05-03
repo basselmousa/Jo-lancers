@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="{{asset("admin/vendors/css/vendor.bundle.addons.css")}}">
 
     <link rel="stylesheet" href="{{asset("admin/css/style.css")}}">
+    <style>
+        .invalid-feedback{
+            display: block !important;
+        }
+    </style>
     <!-- endinject -->
     {{--    <link rel="shortcut icon" href="../../images/favicon.png" />--}}
 </head>
