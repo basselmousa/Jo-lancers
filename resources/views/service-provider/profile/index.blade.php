@@ -15,18 +15,19 @@
                                      class="img-lg rounded-circle mb-3">
                                 <p>{{ auth("provider")->user()->self_description }}</p>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-success">Add Skill</button>
+                                    <button class="btn btn-success" data-toggle="modal" data-target="#add-admin">Add
+                                        Skill
+                                    </button>
                                     {{--                                    <button class="btn btn-success">Follow</button>--}}
                                 </div>
                             </div>
                             <div class="border-bottom py-4">
                                 <p>Skills</p>
                                 <div>
-                                    {{--                                    <label class="badge badge-outline-dark">Chalk</label>--}}
-                                    {{--                                    <label class="badge badge-outline-dark">Hand lettering</label>--}}
-                                    {{--                                    <label class="badge badge-outline-dark">Information Design</label>--}}
-                                    {{--                                    <label class="badge badge-outline-dark">Graphic Design</label>--}}
-                                    {{--                                    <label class="badge badge-outline-dark">Web Design</label>--}}
+                                    @foreach($skills as $skill)
+                                        <label class="badge badge-outline-dark">{{ $skill->skill->name }}</label>
+                                    @endforeach
+
                                 </div>
                             </div>
                             {{--                            <div class="border-bottom py-4">--}}
@@ -134,10 +135,10 @@
                                     </div>
                                 </div>
                                 <div>
-{{--                                    <button class="btn btn-outline-secondary btn-icon">--}}
-{{--                                        <i class="far fa-envelope"></i>--}}
-{{--                                    </button>--}}
-{{--                                    <button class="btn btn-primary">Request</button>--}}
+                                    {{--                                    <button class="btn btn-outline-secondary btn-icon">--}}
+                                    {{--                                        <i class="far fa-envelope"></i>--}}
+                                    {{--                                    </button>--}}
+                                    {{--                                    <button class="btn btn-primary">Request</button>--}}
                                 </div>
                             </div>
                             <div class="mt-4 py-2 border-top border-bottom">
@@ -148,27 +149,271 @@
                                             Info
                                         </a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="#">
-                                            <i class="fas fa-file"></i>
-                                            Feed
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">
-                                            <i class="fa fa-calendar"></i>
-                                            Agenda
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">
-                                            <i class="far fa-file-word"></i>
-                                            Resume
-                                        </a>
-                                    </li>
+
                                 </ul>
                             </div>
                             <div class="profile-feed">
+                                <form method="POST" action="{{ route('provider.profile.updateProfile') }}"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    @method("PUT")
+                                    <div class="row">
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('first_name') is-invalid @enderror"
+                                                   name="first_name"
+                                                   value="{{ old('first_name') ?? explode(" ",auth("provider")->user()->full_name)[0]  }}"
+                                                   required
+                                                   placeholder="First Name"
+                                                   autocomplete="first_name" autofocus>
+                                            @error('first_name')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('second_name') is-invalid @enderror"
+                                                   name="second_name"
+                                                   value="{{ old('second_name') ?? explode(" ",auth("provider")->user()->full_name)[1] }}"
+                                                   required
+                                                   placeholder="Second Name"
+
+                                                   autocomplete="second_name" autofocus>
+
+                                            @error('second_name')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group  col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('last_name') is-invalid @enderror"
+                                                   name="last_name"
+                                                   value="{{ old('last_name') ?? explode(" ",auth("provider")->user()->full_name)[2] }}"
+                                                   placeholder="Last Name"
+
+                                                   required autocomplete="last_name" autofocus>
+
+                                            @error('last_name')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group  col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('username') is-invalid @enderror"
+                                                   placeholder="Username"
+
+                                                   name="username"
+                                                   value="{{ old('username') ?? auth("provider")->user()->username  }}"
+                                                   disabled required autocomplete="name"
+                                                   autofocus>
+
+                                            @error('username')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group  col-lg-5">
+                                            <input id="name" type="email"
+                                                   class="form-control @error('email') is-invalid @enderror"
+                                                   placeholder="Email"
+
+                                                   name="email"
+                                                   value="{{ old('email') ?? auth("provider")->user()->email }}"
+                                                   disabled required autocomplete="name"
+                                                   autofocus>
+
+                                            @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group ">
+                                                <input id="password" type="password"
+                                                       class="form-control @error('password') is-invalid @enderror"
+                                                       name="password"
+                                                       placeholder="Password"
+
+                                                       autocomplete="new-password">
+
+                                                @error('password')
+                                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <div class="form-group ">
+                                                <input id="password-confirm" type="password" class="form-control"
+                                                       placeholder="Confirm Password"
+
+                                                       name="password_confirmation" autocomplete="new-password">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('self_description') is-invalid @enderror"
+                                                   placeholder="Self Description"
+
+                                                   name="self_description"
+                                                   value="{{ old('self_description') ?? auth("provider")->user()->self_description }}"
+                                                   required
+                                                   autocomplete="name" autofocus>
+
+                                            @error('self_description')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   class="form-control @error('skill_description') is-invalid @enderror"
+                                                   placeholder="Skill Description"
+
+                                                   name="skill_description"
+                                                   value="{{ old('skill_description') ?? auth("provider")->user()->skill_description }}"
+                                                   required
+                                                   autocomplete="name" autofocus>
+
+                                            @error('skill_description')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-lg-5">
+                                            <select class="form-control" name="country">
+                                                <option value="JORDAN" selected readonly>Jordan</option>
+                                            </select>
+                                            @error('country')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+
+                                            <select class="form-control" name="city">
+                                                <option value="" selected disabled>Select City</option>
+
+                                                @foreach(\App\Http\Controllers\Cities::$cities as $city)
+                                                    <option
+                                                        value="{{ $city }}" {{ (old("city") ?? auth("provider")->user()->city) == $city ? 'selected' : '' }}>{{ $city }}</option>
+
+                                                @endforeach
+
+                                            </select>
+                                            @error('city')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   placeholder="State"
+
+                                                   class="form-control @error('state') is-invalid @enderror"
+                                                   name="state"
+                                                   value="{{ old('state') ?? auth("provider")->user()->state }}"
+                                                   required autocomplete="name"
+                                                   autofocus>
+
+                                            @error('state')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-lg-5">
+                                            <input id="name" type="text"
+                                                   placeholder="Zip Code"
+
+                                                   class="form-control @error('zip_code') is-invalid @enderror"
+                                                   name="zip_code"
+                                                   value="{{ old('zip_code') ?? auth("provider")->user()->zip_code }}"
+                                                   required autocomplete="name"
+                                                   autofocus>
+
+                                            @error('zip_code')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-lg-5">
+                                            <input id="email" type="date"
+                                                   placeholder="BirthDate"
+
+                                                   class="form-control @error('birthdate') is-invalid @enderror"
+                                                   name="birthdate"
+                                                   value="{{ old('birthdate') ??  auth("provider")->user()->birthdate   }}"
+                                                   required
+                                                   autocomplete="email">
+
+                                            @error('birthdate')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+
+                                            <input type="file" name="cv" class="file-upload-default">
+                                            <div class="input-group col-xs-12">
+                                                <input type="text" class="form-control file-upload-info" disabled
+                                                       placeholder="Upload CV">
+                                                <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                        </span>
+
+                                            </div>
+                                            @error('cv')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group col-lg-5">
+
+                                            <input type="file" name="image" class="file-upload-default">
+                                            <div class="input-group col-xs-12">
+                                                <input type="text" class="form-control file-upload-info" disabled
+                                                       placeholder="Upload Image">
+                                                <span class="input-group-append">
+                          <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                        </span>
+                                            </div>
+                                            @error('image')
+                                            <span class="invalid-feedback" role="alert">
+{{--                                        <strong>{{ $message }}</strong>--}}
+                                    </span>
+                                            @enderror
+                                        </div>
+
+
+                                    </div>
+                                    {{--                            offset-md-4--}}
+                                    <div class="form-group  text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            Update
+                                        </button>
+                                    </div>
+
+                                </form>
 
                             </div>
                         </div>
@@ -177,10 +422,47 @@
             </div>
         </div>
     </div>
+    @include("service-provider.profile.add")
 @endsection
 
 
 @section('js')
+    <script src="{{asset("admin/js/file-upload.js")}}"></script>
+    <script src="{{asset("admin/js/toastDemo.js")}}"></script>
+{{--    <script src="{{asset("admin/js/desktop-notification.js")}}"></script>--}}
+    <script>
+        showSuccessToast = function () {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Success',
+                text: '{{ session()->get('success') }}',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#f96868',
+                position: 'top-right'
+            })
+        };
+        showDangerToast = function (text) {
+            'use strict';
+            resetToastPosition();
+            $.toast({
+                heading: 'Danger',
+                text: text,
+                showHideTransition: 'slide',
+                icon: 'error',
+                loaderBg: '#f2a654',
+                position: 'top-right'
+            })
+        };
+        @foreach($errors->all() as $error)
+        showDangerToast("{{ $error }}")
+        @endforeach
+        @if(session()->has("success"))
+        showSuccessToast();
+        @endif
 
 
+
+    </script>
 @endsection
