@@ -13,6 +13,7 @@ class AuthController extends Controller
     //
     public function showLogin()
     {
+        //laravel pages extension (<name>.blade.php)
         return view("admin.auth.login");
     }
 

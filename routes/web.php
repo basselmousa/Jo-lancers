@@ -87,3 +87,13 @@ Route::group(["prefix" => "provider", "as" => "provider."], function () {
 
     });
 });
+
+Route::group(["prefix" => "user", "as" => "user.","middleware" => "auth:web"],function (){
+    Route::group(["prefix" => "profile", "as" => "profile."], function () {
+        Route::get("/", [\App\Http\Controllers\User\ProfileController::class, "index"])->name("index");
+        Route::put("/", [\App\Http\Controllers\User\ProfileController::class, "update_profile"])->name("updateProfile");
+    });
+    Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
+        Route::get("/", [\App\Http\Controllers\User\ComplaintsController::class, "index"])->name("index");
+        });
+});
