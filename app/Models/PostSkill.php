@@ -10,4 +10,10 @@ class PostSkill extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    public function skill()
+    {
+        return $this->belongsTo(ServiceType::class,"service_type_id");
+    }
+
 }

@@ -6,7 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Service Provider</title>
+    <title>Users</title>
 
     <link rel="stylesheet" href="{{asset("admin/vendors/iconfonts/font-awesome/css/all.min.css")}}">
     <link rel="stylesheet" href="{{asset("admin/vendors/css/vendor.bundle.base.css")}}">

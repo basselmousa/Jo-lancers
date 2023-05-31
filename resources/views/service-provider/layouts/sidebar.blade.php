@@ -16,7 +16,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route("provider.post.my-posts") }}">
                 <i class="fa fa-users menu-icon"></i>
                 <span class="menu-title">Your Bids</span>
             </a>
@@ -30,13 +30,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route("provider.post.index") }}">
                 <i class="fas fa-fill-drip menu-icon"></i>
-                <span class="menu-title">Rate</span>
+                <span class="menu-title">Posts</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route("provider.complaint.index") }}">
                 <i class="fas fa-list menu-icon"></i>
                 <span class="menu-title">Complaints</span>
             </a>

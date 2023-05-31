@@ -79,21 +79,35 @@ Route::group(["prefix" => "provider", "as" => "provider."], function () {
             Route::put("/updateProfile", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "updateProfile"])->name("updateProfile");
         });
 
-        Route::group(["prefix" => "skill", "as" => "skill."],function (){
+        Route::group(["prefix" => "skill", "as" => "skill."], function () {
             Route::get("/", [\App\Http\Controllers\ServiceProvider\SkillController::class, "index"])->name("index");
             Route::delete("/deleteSkill/{type}", [\App\Http\Controllers\ServiceProvider\SkillController::class, "delete"])->name("deleteSkill");
+
+        });
+        Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
+            Route::get("/", [\App\Http\Controllers\ServiceProvider\ComplaintsController::class, "index"])->name("index");
+        });
+        Route::group(["prefix" => "posts", "as" => "post."], function () {
+            Route::get("/", [\App\Http\Controllers\ServiceProvider\PostsController::class, "index"])->name("index");
+            Route::get("/myBids", [\App\Http\Controllers\ServiceProvider\PostsController::class, "myBids"])->name("my-posts");
+            Route::post("/{post}", [\App\Http\Controllers\ServiceProvider\PostsController::class, "createBid"])->name("create");
 
         });
 
     });
 });
 
-Route::group(["prefix" => "user", "as" => "user.","middleware" => "auth:web"],function (){
+Route::group(["prefix" => "user", "as" => "user.", "middleware" => "auth:web"], function () {
     Route::group(["prefix" => "profile", "as" => "profile."], function () {
         Route::get("/", [\App\Http\Controllers\User\ProfileController::class, "index"])->name("index");
         Route::put("/", [\App\Http\Controllers\User\ProfileController::class, "update_profile"])->name("updateProfile");
     });
     Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
         Route::get("/", [\App\Http\Controllers\User\ComplaintsController::class, "index"])->name("index");
-        });
+    });
+    Route::group(["prefix" => "posts", "as" => "post."], function () {
+        Route::get("/", [\App\Http\Controllers\User\PostsController::class, "index"])->name("index");
+        Route::get("/myPosts", [\App\Http\Controllers\User\PostsController::class, "posts"])->name("my-posts");
+        Route::post("/", [\App\Http\Controllers\User\PostsController::class, "create"])->name("create");
+    });
 });

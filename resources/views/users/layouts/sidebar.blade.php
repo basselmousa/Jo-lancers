@@ -16,7 +16,7 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route("user.post.my-posts") }}">
                 <i class="fa fa-users menu-icon"></i>
                 <span class="menu-title">Your Posts</span>
             </a>
@@ -24,7 +24,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route("user.post.index") }}">
                 <i class="fas fa-dollar-sign menu-icon"></i>
                 <span class="menu-title">All Posts</span>
             </a>

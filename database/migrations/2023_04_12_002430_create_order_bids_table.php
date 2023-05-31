@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('order_bids', function (Blueprint $table) {
             $table->id();
             $table->foreignId("post_id")->constrained("posts")->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId("service_type_id")->constrained("service_types")->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId("service_provider_id")->constrained("service_providers")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string("bid");
             $table->string("proposal");
