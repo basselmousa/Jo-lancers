@@ -15,5 +15,11 @@ class OrderBid extends Model
         return $this->belongsTo(Post::class,"post_id");
     }
 
+    public function provider()
+    {
+        return $this->belongsTo(ServiceProvider::class,"service_provider_id");
+    }
+
+
 
 }

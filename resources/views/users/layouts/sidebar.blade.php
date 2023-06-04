@@ -31,6 +31,14 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" href="{{ route("user.post.accepted-bids") }}">
+                <i class="fas fa-dollar-sign menu-icon"></i>
+                <span class="menu-title">Accepted Posts Bids</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item">
             <a class="nav-link" href="{{ route("user.complaint.index") }}">
                 <i class="fas fa-list menu-icon"></i>
                 <span class="menu-title">Complaints</span>

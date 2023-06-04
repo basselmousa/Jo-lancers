@@ -16,7 +16,10 @@
                             <label for="exampleInputUsername1">Category Name</label>
                             <input name="name" value="{{$admin->name}}" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
                         </div>
-
+                        <div class="form-group">
+                            <label for="exampleInputUsername1">Category Description</label>
+                            <textarea name="desc"  class="form-control" id="exampleInputUsername1" placeholder="Description">{{ $admin->desc }}</textarea>
+                        </div>
                     </form>
                 </div>
             </div>

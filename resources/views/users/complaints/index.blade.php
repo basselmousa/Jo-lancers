@@ -28,6 +28,7 @@
                                 <th>Service Provider Name</th>
                                 <th>Complaint Text</th>
                                 <th>Complaint Type</th>
+                                <th>Actioned?</th>
                                 <th>Created At</th>
                             </tr>
                             </thead>
@@ -38,6 +39,7 @@
                                     <td>{{ $skill->provider->full_name }}</td>
                                     <td>{{ $skill->text}}</td>
                                     <td>{{ $skill->complaint_type}}</td>
+                                    <td>{{ $skill->actioned == 1 ? "Actioned" : "Under Study"}}</td>
                                     <td>{{ \Carbon\Carbon::make($skill->created_at)}}</td>
 
                                 </tr>

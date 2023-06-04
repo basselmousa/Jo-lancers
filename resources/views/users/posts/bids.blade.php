@@ -16,8 +16,13 @@
         @forelse($posts as $post)
             <div class="col-sm-6">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-header">
                         <h5 class="card-title">{{ $post->post->title }}</h5>
+
+                    </div>
+                    <div class="card-body">
+
+                        <img src="{{ asset("storage/" . $post->post->image)  }}" alt="">
                         <p class="card-text">{{ $post->post->description }}</p>
                         <p>Min-Max ({{$post->post->min_bud}} - {{ $post->post->max_bud }}
                             ) {{ $post->post->currency->sign }} </p>

@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\PostSkill;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class PostsController extends Controller
 {
@@ -38,6 +39,7 @@ class PostsController extends Controller
             "max_bud" => "required|numeric|gt:min_bud",
             "skills" => "required",
             "currency" => "required",
+            "image" => "required|mimes:jpg,jpeg,png|max:10000"
         ]);
 
         $post = Post::create([
@@ -46,7 +48,8 @@ class PostsController extends Controller
             "min_bud" => $request->min_bud,
             "max_bud" => $request->max_bud,
             "user_id" => auth("web")->id(),
-            "currency_id" => $request->currency
+            "currency_id" => $request->currency,
+            "image" => $this->getFilePath($request)
         ]);
 
         foreach ($request->skills as $skill){
@@ -59,6 +62,17 @@ class PostsController extends Controller
 
         return back()->with("success","Post Created Successfully");
 
+    }
+
+    private function getFilePath(Request $request)
+    {
+        if ($request->hasFile("image"))
+        {
+            return $request->file("image")->store("posts");
+        }
+        else{
+            throw ValidationException::withMessages(["image" => "image is required"]);
+        }
     }
 
 

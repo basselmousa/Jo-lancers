@@ -23,7 +23,7 @@
     <div class="row">
 
         @forelse($posts as $post)
-            <div class="col-sm-6">
+            <div class="col-sm-6 mb-3">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title }}</h5>
@@ -34,10 +34,24 @@
 
                         @endforeach
 
-                        @if(\Illuminate\Support\Facades\Auth::guard("provider")->check())
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+                        @if(auth("web")->id() == $post->user_id && !isset($post->order_bid_id))
+                            <br>
+                            <a href="{{ route("user.post.show-bids",$post->id) }}" class="btn btn-primary">Show Bids</a>
 
                         @endif
+
+                        @if(isset($post->order_bid_id))
+                            <p>Bid Information</p>
+
+                            <label class="badge badge-info badge-pill">Deliver In {{ $post->bid->deliver_in_days}} Days  </label>
+                            <br>
+                            <label class="badge badge-warning badge-pill">Bid Value {{ $post->bid->deliver_in_days}} {{ $post->currency->sign }}  </label>
+                            <br>
+                            <label class="badge badge-outline-info badge-pill"> {{ $post->bid->proposal}}   </label>
+
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -47,7 +61,6 @@
                     No Posts Yet
                 </div>
             </div>
-
 
         @endforelse
     </div>

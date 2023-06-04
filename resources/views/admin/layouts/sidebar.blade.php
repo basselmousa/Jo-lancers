@@ -42,5 +42,12 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route("admin.complaint.index") }}">
+                <i class="fas fa-list menu-icon"></i>
+                <span class="menu-title">Complaints</span>
+            </a>
+        </li>
+
     </ul>
 </nav>

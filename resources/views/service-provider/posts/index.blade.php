@@ -16,10 +16,18 @@
     <div class="row">
 
         @forelse($posts as $post)
-            <div class="col-sm-6">
+
+            <div class="col-sm-6 mb-3">
+
+
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-header">
                         <h5 class="card-title">{{ $post->title }}</h5>
+
+                    </div>
+
+                    <div class="card-body">
+                        <img src="{{ asset("storage/" . $post->image)  }}" alt="">
                         <p class="card-text">{{ $post->description }}</p>
                         <p>Min-Max ({{$post->min_bud}} - {{ $post->max_bud }}) {{ $post->currency->sign }} </p>
                         @foreach($post->skills as $skill)

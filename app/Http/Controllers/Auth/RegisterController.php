@@ -61,7 +61,7 @@ class RegisterController extends Controller
             "city" => "required|not_in:0",
             "state" => "required",
             "zip_code" => "required",
-            "birthdate" => "required",
+            "birthdate" => "required|before:",Carbon::now()->subYears(18),
         ]);
     }
 

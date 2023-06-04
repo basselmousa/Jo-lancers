@@ -20,4 +20,8 @@ class Post extends Model
     {
         return $this->hasMany(PostSkill::class,"post_id");
     }
+    public function bid()
+    {
+        return $this->hasOne(OrderBid::class,"id");
+    }
 }

@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
 
+Route::get("/",[\App\Http\Controllers\HomeController::class,"index"]);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -60,6 +61,10 @@ Route::group(["prefix" => "admin", "as" => "admin."], function () {
             Route::put("/{currency}", [\App\Http\Controllers\Admin\CurrencyController::class, "update"])->name("update");
             Route::delete("/{currency}", [\App\Http\Controllers\Admin\CurrencyController::class, "delete"])->name("delete");
 
+        });
+        Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
+            Route::get("/", [\App\Http\Controllers\Admin\ComplaintsController::class, "index"])->name("index");
+            Route::post("/{complaint}", [\App\Http\Controllers\Admin\ComplaintsController::class, "create"])->name("create");
         });
     });
 });
@@ -104,10 +109,14 @@ Route::group(["prefix" => "user", "as" => "user.", "middleware" => "auth:web"], 
     });
     Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
         Route::get("/", [\App\Http\Controllers\User\ComplaintsController::class, "index"])->name("index");
+        Route::post("/{provider}", [\App\Http\Controllers\User\ComplaintsController::class, "create"])->name("create");
     });
     Route::group(["prefix" => "posts", "as" => "post."], function () {
         Route::get("/", [\App\Http\Controllers\User\PostsController::class, "index"])->name("index");
         Route::get("/myPosts", [\App\Http\Controllers\User\PostsController::class, "posts"])->name("my-posts");
         Route::post("/", [\App\Http\Controllers\User\PostsController::class, "create"])->name("create");
+        Route::get("/bids/{post}", [\App\Http\Controllers\User\BidsController::class, "index"])->name("show-bids");
+        Route::post("/bids/{bid}", [\App\Http\Controllers\User\BidsController::class, "accept"])->name("accept-bids");
+        Route::get("/acceptedBids", [\App\Http\Controllers\User\BidsController::class, "acceptedBidPosts"])->name("accepted-bids");
     });
 });

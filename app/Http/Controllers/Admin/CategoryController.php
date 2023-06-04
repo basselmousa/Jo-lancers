@@ -19,7 +19,8 @@ class CategoryController extends Controller
     {
         //
         $request->validate([
-            "name" => "required"
+            "name" => "required",
+            "desc" => "required|min:25"
         ]);
 
         ServiceCategory::create($request->all());
@@ -30,7 +31,8 @@ class CategoryController extends Controller
     {
         //
         $request->validate([
-            "name" => "required"
+            "name" => "required",
+            "desc" => "required|min:25"
         ]);
         $category->update($request->all());
         return back()->with("success" ,"Category Updated Successfully");

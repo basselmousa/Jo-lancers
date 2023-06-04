@@ -13,7 +13,11 @@
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputUsername1">Category Name</label>
-                            <input name="name" type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                            <input name="name" type="text" class="form-control" id="exampleInputUsername1" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername1">Category Description</label>
+                            <textarea name="desc"  class="form-control" id="exampleInputUsername1" placeholder="Description"></textarea>
                         </div>
                     </form>
                 </div>
