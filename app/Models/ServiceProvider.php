@@ -12,4 +12,9 @@ class ServiceProvider extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     protected $guarded =[];
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class,"currency_id");
+    }
 }

@@ -82,6 +82,7 @@ Route::group(["prefix" => "provider", "as" => "provider."], function () {
             Route::get("/", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "index"])->name("index");
             Route::post("/addSkill", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "addSkill"])->name("addSkill");
             Route::put("/updateProfile", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "updateProfile"])->name("updateProfile");
+            Route::put("/setHourlyPrice", [\App\Http\Controllers\ServiceProvider\ProfileController::class, "setHourlyPrice"])->name("setHourlyPrice");
         });
 
         Route::group(["prefix" => "skill", "as" => "skill."], function () {

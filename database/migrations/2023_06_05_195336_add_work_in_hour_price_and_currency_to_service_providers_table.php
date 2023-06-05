@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('service_providers', function (Blueprint $table) {
+            //
+            $table->string("price_for_hour")->nullable();
+            $table->foreignId("currency_id")->nullable()->constrained("currencies")->nullOnDelete()->cascadeOnUpdate();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('service_providers', function (Blueprint $table) {
+            //
+            $table->dropColumn("price_for_hour");
+            $table->dropConstrainedForeignId("currency_id");
+        });
+    }
+};

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ServiceProvider;
 
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 use App\Models\ServiceProviderType;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class ProfileController extends Controller
         $ids = ServiceProviderType::where("service_provider_id",auth("provider")->id())->get("id")->toArray();
         $serviceTypes = ServiceType::whereNotIn("id",$ids)->get();
 
+        $currencies = Currency::all();
 
-        return view("service-provider.profile.index",compact("skills",'serviceTypes'));
+        return view("service-provider.profile.index",compact("skills",'serviceTypes','currencies'));
     }
 
     public function addSkill(Request $request)
@@ -91,6 +93,21 @@ class ProfileController extends Controller
 
         return back()->with("success","Profile Updated Successfully");
 
+    }
+
+    public function setHourlyPrice(Request $request)
+    {
+        $request->validate([
+            "price_for_hour" => "required|numeric",
+            "currency" => "required"
+        ]);
+
+        auth("provider")->user()->update([
+            "price_for_hour" => $request->price_for_hour,
+            "currency_id" => $request->currency
+        ]);
+
+        return back()->with("success","Data Updated Successfully");
     }
     private function getFilePath(Request $request, string $string)
     {
