@@ -17,4 +17,9 @@ class ServiceProvider extends Authenticatable
     {
         return $this->belongsTo(Currency::class,"currency_id");
     }
+
+    public function skill()
+    {
+        return $this->hasMany(ServiceProviderType::class,"service_provider_id");
+    }
 }

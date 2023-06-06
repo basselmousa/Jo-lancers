@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\PostSkill;
 use App\Models\ServiceCategory;
 use App\Models\ServiceProvider;
+use App\Models\ServiceProviderType;
 use App\Models\ServiceType;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,5 +60,15 @@ class HomeController extends Controller
 
         return view('welcome',compact("totalUsers",'totalPosts','totalProviders',"services",'categories','posts'));
 
+    }
+
+
+    public function categoryProviders(Request $request, ServiceCategory $category)
+    {
+        $types  = ServiceType::where("category_id",$category->id)->pluck("id")->toArray();
+        $typesProviders = ServiceProviderType::whereIn("service_type_id",$types)->pluck("service_provider_id")->toArray();
+        $providers = ServiceProvider::whereIn("id",$typesProviders)->whereNotNull("price_for_hour")->get();
+//        dd($providers);
+        return view("hourly_providers",compact("providers",'category'));
     }
 }

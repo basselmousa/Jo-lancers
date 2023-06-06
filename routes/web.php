@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get("/",[\App\Http\Controllers\HomeController::class,"index"]);
+Route::get("/",[\App\Http\Controllers\HomeController::class,"index"])->name("welcome");
+Route::get("/category/{category}",[\App\Http\Controllers\HomeController::class,"categoryProviders"])->name("category.providers");
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
