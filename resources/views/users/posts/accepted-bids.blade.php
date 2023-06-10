@@ -44,7 +44,10 @@
                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#add-admin-{{$post->id}}">Complaint
                                         </button>
                                         @include("users.posts.complaint",["post" => $post])
-
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                data-target="#rate-provider-{{$post->id}}">Rate
+                                        </button>
+                                        @include("users.posts.rate",["post" => $post])
                                     </td>
                                 </tr>
                             @endforeach
@@ -63,6 +66,7 @@
 @section('js')
     <script src="{{asset("admin/js/file-upload.js")}}"></script>
     <script src="{{asset("admin/js/toastDemo.js")}}"></script>
+    <script src="{{asset("admin/js/form-addons.js")}}"></script>
     {{--    <script src="{{asset("admin/js/desktop-notification.js")}}"></script>--}}
     <script>
         showSuccessToast = function () {

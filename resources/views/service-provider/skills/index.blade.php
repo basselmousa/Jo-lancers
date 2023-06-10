@@ -25,6 +25,7 @@
                             <thead>
                             <tr>
                                 <th>Skill Name</th>
+                                <th>Skill Percentage</th>
                                 <th>Skill Alt Code</th>
                                 <th>Actions</th>
                             </tr>
@@ -33,6 +34,7 @@
                             @foreach($skills as $skill)
                                 <tr>
                                     <td>{{ $skill->skill->name }}</td>
+                                    <td>{{ $skill->percentage }}%</td>
                                     <td>{{ $skill->skill->alt_code }}</td>
                                     <td>
 

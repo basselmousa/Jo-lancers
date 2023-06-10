@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{asset("home/css/style.css")}}">
     <link rel="stylesheet" href="{{asset("home/css/responsive.css")}}">
     <style>
-        a{
+        a {
             color: black;
         }
     </style>
@@ -66,7 +66,8 @@
                         }
                     }));
                     i.referrerPolicy = "origin";
-                    i.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    // i.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
+                    i.src = "{{asset("home/cdn-cgi/zaraz/sd0d9.js")}}?z=" + btoa(encodeURIComponent(JSON.stringify(a[c])));
                     h.parentNode.insertBefore(i, h)
                 };
                 ["complete", "interactive"].includes(b.readyState) ? zaraz.init() : a.addEventListener("DOMContentLoaded", zaraz.init)
@@ -102,8 +103,10 @@
                                aria-haspopup="true" aria-expanded="false">Login</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{ route("login") }}">User</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route("provider.auth.login") }}">Service</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route("admin.auth.login") }}">Admin</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route("provider.auth.login") }}">Service</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link"
+                                                        href="{{ route("admin.auth.login") }}">Admin</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -212,14 +215,14 @@
     <div class="container">
         <div class="main_title">
             <h2>offerings to my clients</h2>
-{{--            <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.--}}
-{{--                You may see some for as low as $.17 each.</p>--}}
+            {{--            <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.--}}
+            {{--                You may see some for as low as $.17 each.</p>--}}
         </div>
         <div class="feature_inner row">
             @foreach($categories as $category)
 
                 <div class="col-lg-4 col-md-6">
-                    <a class="text-black " href="{{ route("category.providers",$category->id) }}" >
+                    <a class="text-black " href="{{ route("category.providers",$category->id) }}">
                         <div class="feature_item">
 
                             <i class="flaticon-city"></i>
@@ -239,8 +242,8 @@
 <section id="project" class="home_gallery_area p_120">
     <div class="container">
         <div class="main_title">
-            <h2>Our Latest Featured Projects</h2>
-            <p>Who are in extremely love with eco friendly system.</p>
+            <h2>Our Top Rated Providers</h2>
+{{--            <p>Who are in extremely love with eco friendly system.</p>--}}
         </div>
 
         <div class="isotope_fillter">
@@ -248,9 +251,9 @@
                 <li class="active" data-filter="*"><a href="#">All</a></li>
                 @foreach($categories as $category)
                     <li data-filter=".{{$category->id}}"><a href="#">{{$category->name}}</a></li>
-{{--                    <li data-filter=".manipul"><a href="#">Raster</a></li>--}}
-{{--                    <li data-filter=".creative"><a href="#">UI/UX</a></li>--}}
-{{--                    <li data-filter=".design"><a href="#">Printing</a></li>--}}
+                    {{--                    <li data-filter=".manipul"><a href="#">Raster</a></li>--}}
+                    {{--                    <li data-filter=".creative"><a href="#">UI/UX</a></li>--}}
+                    {{--                    <li data-filter=".design"><a href="#">Printing</a></li>--}}
                 @endforeach
             </ul>
         </div>
@@ -258,144 +261,106 @@
     </div>
     <div class="container">
         @auth("web")
-        <div class="gallery_f_inner row imageGallery1">
-            @foreach($posts as $post)
-                <div class="col-lg-4 col-md-4 col-sm-6 brand {{ $post->category_id }} design print">
-                    <div class="h_gallery_item">
-                        <div class="g_img_item">
-                            <img class="img-fluid" src="{{ asset("storage") ."/".$post->image }}"  width="340px" height="339px" alt="">
-{{--                            <a class="light" href="img/gallery/project-1.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+            <div class="gallery_f_inner row imageGallery1">
+                @foreach($providers as $post)
+                    <div class="col-lg-4 col-md-4 col-sm-6 brand @foreach($post->provider->skill as $skill) {{ $skill->skill->category_id }} @endforeach   design print">
+
+
+                        <div class="h_gallery_item">
+                            <div class="g_img_item">
+                                <img class="img-fluid" src="{{ asset("storage") ."/".$post->provider->image }}" width="340px"
+                                     height="339px" alt="">
+                                {{--                            <a class="light" href="img/gallery/project-1.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                            </div>
+                            <div class="g_item_text">
+
+
+                                    <h4>{{ $post->provider->full_name }}</h4>
+                                    <p>{{ $post->provider->self_description }}</p>
+{{--                                    <span> Min Bud - Max Bud  ({{ $post->min_bud }} - {{ $post->max_bud }}) </span>--}}
+                                <br>
+{{--                                @if(isset($post->provider->email)){{"mailto:" . $post->provider->email}} @endif--}}
+                                <a href="{{ route("provider-profile",$post->provider->id) }}"
+                                   class="genric-btn info-border circle">
+                                    Profile
+                                </a>
+
+                            </div>
                         </div>
-                        <div class="g_item_text">
-                            <h4>{{ $post->title }}</h4>
-                            <p>{{ $post->description }}</p>
-                            <span> Min Bud - Max Bud  ({{ $post->min_bud }} - {{ $post->max_bud }}) </span>
-                        </div>
+
+
                     </div>
-                </div>
-            @endforeach
-{{--            <div class="col-lg-4 col-md-4 col-sm-6 brand manipul creative">--}}
-{{--                <div class="h_gallery_item">--}}
-{{--                    <div class="g_img_item">--}}
-{{--                        <img class="img-fluid" src="img/gallery/project-2.jpg" alt="">--}}
-{{--                        <a class="light" href="img/gallery/project-2.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                    <div class="g_item_text">--}}
-{{--                        <h4>2D Vinyl Design</h4>--}}
-{{--                        <p>Client Project</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-lg-4 col-md-4 col-sm-6 manipul creative design print">--}}
-{{--                <div class="h_gallery_item">--}}
-{{--                    <div class="g_img_item">--}}
-{{--                        <img class="img-fluid" src="img/gallery/project-3.jpg" alt="">--}}
-{{--                        <a class="light" href="img/gallery/project-3.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                    <div class="g_item_text">--}}
-{{--                        <h4>Creative Poster Design</h4>--}}
-{{--                        <p>Client Project</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-lg-4 col-md-4 col-sm-6 brand creative print">--}}
-{{--                <div class="h_gallery_item">--}}
-{{--                    <div class="g_img_item">--}}
-{{--                        <img class="img-fluid" src="img/gallery/project-4.jpg" alt="">--}}
-{{--                        <a class="light" href="img/gallery/project-4.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                    <div class="g_item_text">--}}
-{{--                        <h4>Embosed Logo Design</h4>--}}
-{{--                        <p>Client Project</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-lg-4 col-md-4 col-sm-6 brand manipul design">--}}
-{{--                <div class="h_gallery_item">--}}
-{{--                    <div class="g_img_item">--}}
-{{--                        <img class="img-fluid" src="img/gallery/project-5.jpg" alt="">--}}
-{{--                        <a class="light" href="img/gallery/project-5.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                    <div class="g_item_text">--}}
-{{--                        <h4>3D Disposable Bottle</h4>--}}
-{{--                        <p>Client Project</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-lg-4 col-md-4 col-sm-6 brand creative">--}}
-{{--                <div class="h_gallery_item">--}}
-{{--                    <div class="g_img_item">--}}
-{{--                        <img class="img-fluid" src="img/gallery/project-6.jpg" alt="">--}}
-{{--                        <a class="light" href="img/gallery/project-6.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
-{{--                    </div>--}}
-{{--                    <div class="g_item_text">--}}
-{{--                        <h4>3D Logo Design</h4>--}}
-{{--                        <p>Client Project</p>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-        </div>
-{{--        <div class="more_btn">--}}
-{{--            <a class="main_btn" href="#">Load More Items</a>--}}
-{{--        </div>--}}
+                @endforeach
+                {{--            <div class="col-lg-4 col-md-4 col-sm-6 brand manipul creative">--}}
+                {{--                <div class="h_gallery_item">--}}
+                {{--                    <div class="g_img_item">--}}
+                {{--                        <img class="img-fluid" src="img/gallery/project-2.jpg" alt="">--}}
+                {{--                        <a class="light" href="img/gallery/project-2.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="g_item_text">--}}
+                {{--                        <h4>2D Vinyl Design</h4>--}}
+                {{--                        <p>Client Project</p>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-lg-4 col-md-4 col-sm-6 manipul creative design print">--}}
+                {{--                <div class="h_gallery_item">--}}
+                {{--                    <div class="g_img_item">--}}
+                {{--                        <img class="img-fluid" src="img/gallery/project-3.jpg" alt="">--}}
+                {{--                        <a class="light" href="img/gallery/project-3.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="g_item_text">--}}
+                {{--                        <h4>Creative Poster Design</h4>--}}
+                {{--                        <p>Client Project</p>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-lg-4 col-md-4 col-sm-6 brand creative print">--}}
+                {{--                <div class="h_gallery_item">--}}
+                {{--                    <div class="g_img_item">--}}
+                {{--                        <img class="img-fluid" src="img/gallery/project-4.jpg" alt="">--}}
+                {{--                        <a class="light" href="img/gallery/project-4.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="g_item_text">--}}
+                {{--                        <h4>Embosed Logo Design</h4>--}}
+                {{--                        <p>Client Project</p>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-lg-4 col-md-4 col-sm-6 brand manipul design">--}}
+                {{--                <div class="h_gallery_item">--}}
+                {{--                    <div class="g_img_item">--}}
+                {{--                        <img class="img-fluid" src="img/gallery/project-5.jpg" alt="">--}}
+                {{--                        <a class="light" href="img/gallery/project-5.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="g_item_text">--}}
+                {{--                        <h4>3D Disposable Bottle</h4>--}}
+                {{--                        <p>Client Project</p>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+                {{--            <div class="col-lg-4 col-md-4 col-sm-6 brand creative">--}}
+                {{--                <div class="h_gallery_item">--}}
+                {{--                    <div class="g_img_item">--}}
+                {{--                        <img class="img-fluid" src="img/gallery/project-6.jpg" alt="">--}}
+                {{--                        <a class="light" href="img/gallery/project-6.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="g_item_text">--}}
+                {{--                        <h4>3D Logo Design</h4>--}}
+                {{--                        <p>Client Project</p>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--            </div>--}}
+            </div>
+            {{--        <div class="more_btn">--}}
+            {{--            <a class="main_btn" href="#">Load More Items</a>--}}
+            {{--        </div>--}}
         @else
             <p class="text-center"> Join us to see this feature <a href="{{ route("login") }}">Login</a></p>
         @endauth
 
     </div>
 </section>
-
-
-{{--<section class="testimonials_area p_120">--}}
-{{--    <div class="container">--}}
-{{--        <div class="main_title">--}}
-{{--            <h2>Testimonials</h2>--}}
-{{--            <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.--}}
-{{--                You may see some for as low as $.17 each.</p>--}}
-{{--        </div>--}}
-{{--        <div class="testi_inner">--}}
-{{--            <div class="testi_slider owl-carousel">--}}
-{{--                <div class="item">--}}
-{{--                    <div class="testi_item">--}}
-{{--                        <p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If--}}
-{{--                            you think about it, you travel across her face</p>--}}
-{{--                        <h4>Fanny Spencer</h4>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star-half-o"></i></a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="item">--}}
-{{--                    <div class="testi_item">--}}
-{{--                        <p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If--}}
-{{--                            you think about it, you travel across her face</p>--}}
-{{--                        <h4>Fanny Spencer</h4>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star-half-o"></i></a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="item">--}}
-{{--                    <div class="testi_item">--}}
-{{--                        <p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If--}}
-{{--                            you think about it, you travel across her face</p>--}}
-{{--                        <h4>Fanny Spencer</h4>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star"></i></a>--}}
-{{--                        <a href="#"><i class="fa fa-star-half-o"></i></a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</section>--}}
-
 
 <footer id="contact" class="footer_area p_120">
     <div class="container">
@@ -418,7 +383,7 @@
                     <p>If you have any problems, do not hesitate to contact me</p>
 
                     <div id="mc_embed_signup">
-                        <a  style="cursor: pointer;color: #007bff" onclick="window.open('mailto:admin@jolancers.com')">admin@jolancers.com</a>
+                        <a style="cursor: pointer;color: #007bff" onclick="window.open('mailto:admin@jolancers.com')">admin@jolancers.com</a>
 
                     </div>
                 </aside>

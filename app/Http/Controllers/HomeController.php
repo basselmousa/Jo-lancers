@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\PostSkill;
+use App\Models\Rate;
 use App\Models\ServiceCategory;
 use App\Models\ServiceProvider;
 use App\Models\ServiceProviderType;
@@ -12,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -36,10 +38,10 @@ class HomeController extends Controller
         $totalProviders = ServiceProvider::all()->count();
         $totalUsers = User::all()->count();
         $services = DB::select("select *,count(post_skills.post_id)as  numberOfuse from service_types inner join post_skills on service_types.id = post_skills.service_type_id
-                                                   GROUP by post_skills.post_id
-                                                   having COUNT(post_skills.service_type_id) > 1
-                                                    order by COUNT(post_skills.service_type_id) desc
-                                                    LIMIT 6;");
+                                       GROUP by post_skills.post_id
+                                       having COUNT(post_skills.service_type_id) > 1
+                                        order by COUNT(post_skills.service_type_id) desc
+                                        LIMIT 6;");
 
         $categories = ServiceCategory::all()->take(5);
 
@@ -55,10 +57,16 @@ class HomeController extends Controller
             ->groupBy("posts.id")
             ->whereIn("service_categories.id",$categories->pluck("id")->toArray())->get();
 //dd($posts);
+        $providers = Rate::with(["provider.skill.skill"])//->join("service_providers","service_providers.id" ,"=","rates.service_provider_id")
+            ->select([/*"service_providers.*",*/"rates.service_provider_id",DB::raw("avg(rate) as rate")])
+            ->groupBy("rates.service_provider_id")
+            ->having("rate",">","3.5")
+            ->limit(7)
+            ->get();
 
-//        dd($categories->pluck("id")->implode(","));
+//        dd($providers[0]->provider->skill[0]->skill);
 
-        return view('welcome',compact("totalUsers",'totalPosts','totalProviders',"services",'categories','posts'));
+        return view('welcome',compact("totalUsers",'totalPosts','totalProviders',"services",'categories','posts','providers'));
 
     }
 
@@ -70,5 +78,18 @@ class HomeController extends Controller
         $providers = ServiceProvider::whereIn("id",$typesProviders)->whereNotNull("price_for_hour")->get();
 //        dd($providers);
         return view("hourly_providers",compact("providers",'category'));
+    }
+
+    public function providerProfile(Request $request, ServiceProvider $provider)
+    {
+        $works = $provider->works;
+        $skills = $provider->skill;
+        $rates = $provider->rate;
+        return view("provider-profile",compact("provider","works","rates","skills"));
+    }
+
+    public function downloadCV(Request $request,ServiceProvider $provider)
+    {
+        return Storage::download($provider->cv,$provider->full_name .".". pathinfo(asset("storage/".$provider->cv),PATHINFO_EXTENSION));
     }
 }

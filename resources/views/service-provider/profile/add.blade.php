@@ -28,6 +28,16 @@
                                     </span>
                             @enderror
                         </div>
+                        <div class="form-group ">
+                            <label for="exampleInputUsername1">Percentage</label>
+                            <input name="percentage" value="{{ old("percentage") }}"
+                                   type="text" class="form-control" id="exampleInputUsername1" placeholder="Deliver In Days">
+                            @error('percentage')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
                     </form>
                 </div>
             </div>

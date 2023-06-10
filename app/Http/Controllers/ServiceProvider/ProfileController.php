@@ -20,7 +20,8 @@ class ProfileController extends Controller
         $skills = ServiceProviderType::with(["skill"])
             ->where("service_provider_id",auth("provider")->id())
             ->get();
-        $ids = ServiceProviderType::where("service_provider_id",auth("provider")->id())->get("id")->toArray();
+        $ids = ServiceProviderType::where("service_provider_id",auth("provider")->id())
+            ->get("service_type_id")->toArray();
         $serviceTypes = ServiceType::whereNotIn("id",$ids)->get();
 
         $currencies = Currency::all();
@@ -32,10 +33,12 @@ class ProfileController extends Controller
     {
         //
         $request->validate([
-            "skill" => "required|not_in:0"
+            "skill" => "required|not_in:0",
+            "percentage" => "required|numeric|lte:100"
         ]);
         ServiceProviderType::create([
             "service_type_id" => $request->skill,
+            "percentage" => $request->percentage,
             "service_provider_id" => auth("provider")->id()
         ]);
         return back()->with("success","Created Successfully");

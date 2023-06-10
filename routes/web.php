@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get("/",[\App\Http\Controllers\HomeController::class,"index"])->name("welcome");
 Route::get("/category/{category}",[\App\Http\Controllers\HomeController::class,"categoryProviders"])->name("category.providers");
+Route::get("/providerProfile/{provider}",[\App\Http\Controllers\HomeController::class,"providerProfile"])->name("provider-profile");
+Route::get("/providerProfile/{provider}/download",[\App\Http\Controllers\HomeController::class,"downloadCV"])->name("download-cv");
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -89,6 +91,13 @@ Route::group(["prefix" => "provider", "as" => "provider."], function () {
         Route::group(["prefix" => "skill", "as" => "skill."], function () {
             Route::get("/", [\App\Http\Controllers\ServiceProvider\SkillController::class, "index"])->name("index");
             Route::delete("/deleteSkill/{type}", [\App\Http\Controllers\ServiceProvider\SkillController::class, "delete"])->name("deleteSkill");
+        });
+
+
+        Route::group(["prefix" => "work", "as" => "work."], function () {
+            Route::get("/", [\App\Http\Controllers\ServiceProvider\WorksController::class, "index"])->name("index");
+            Route::post("/", [\App\Http\Controllers\ServiceProvider\WorksController::class, "create"])->name("create");
+            Route::delete("/deleteWork/{work}", [\App\Http\Controllers\ServiceProvider\WorksController::class, "delete"])->name("deleteWork");
 
         });
         Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
@@ -112,6 +121,10 @@ Route::group(["prefix" => "user", "as" => "user.", "middleware" => "auth:web"], 
     Route::group(["prefix" => "complaints", "as" => "complaint."], function () {
         Route::get("/", [\App\Http\Controllers\User\ComplaintsController::class, "index"])->name("index");
         Route::post("/{provider}", [\App\Http\Controllers\User\ComplaintsController::class, "create"])->name("create");
+    });
+    Route::group(["prefix" => "rate", "as" => "rate."], function () {
+        Route::post("/{provider}", [\App\Http\Controllers\User\RateController::class, "create"])->name("create");
+//            Route::delete("/deleteSkill/{type}", [\App\Http\Controllers\ServiceProvider\SkillController::class, "delete"])->name("deleteSkill");
     });
     Route::group(["prefix" => "posts", "as" => "post."], function () {
         Route::get("/", [\App\Http\Controllers\User\PostsController::class, "index"])->name("index");

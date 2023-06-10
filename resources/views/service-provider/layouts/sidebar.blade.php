@@ -30,6 +30,12 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ route("provider.work.index") }}">
+                <i class="fas fa-dollar-sign menu-icon"></i>
+                <span class="menu-title">Your Works</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route("provider.post.index") }}">
                 <i class="fas fa-fill-drip menu-icon"></i>
                 <span class="menu-title">Posts</span>

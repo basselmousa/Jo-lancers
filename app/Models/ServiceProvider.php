@@ -22,4 +22,14 @@ class ServiceProvider extends Authenticatable
     {
         return $this->hasMany(ServiceProviderType::class,"service_provider_id");
     }
+
+    public function rate()
+    {
+        return $this->hasMany(Rate::class,"service_provider_id");
+    }
+
+    public function works()
+    {
+        return $this->hasMany(ServiceProviderWork::class,"service_provider_id");
+    }
 }
