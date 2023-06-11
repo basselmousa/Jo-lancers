@@ -22,6 +22,7 @@ Route::get("/",[\App\Http\Controllers\HomeController::class,"index"])->name("wel
 Route::get("/category/{category}",[\App\Http\Controllers\HomeController::class,"categoryProviders"])->name("category.providers");
 Route::get("/providerProfile/{provider}",[\App\Http\Controllers\HomeController::class,"providerProfile"])->name("provider-profile");
 Route::get("/providerProfile/{provider}/download",[\App\Http\Controllers\HomeController::class,"downloadCV"])->name("download-cv");
+Route::post("/search",[\App\Http\Controllers\HomeController::class,"search"])->name("search");
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -133,5 +134,7 @@ Route::group(["prefix" => "user", "as" => "user.", "middleware" => "auth:web"], 
         Route::get("/bids/{post}", [\App\Http\Controllers\User\BidsController::class, "index"])->name("show-bids");
         Route::post("/bids/{bid}", [\App\Http\Controllers\User\BidsController::class, "accept"])->name("accept-bids");
         Route::get("/acceptedBids", [\App\Http\Controllers\User\BidsController::class, "acceptedBidPosts"])->name("accepted-bids");
+        Route::get("/providerProfile/{provider}", [\App\Http\Controllers\User\BidsController::class, "showProviderProfile"])->name("provider-profile");
+        Route::get("/download-cv/{provider}", [\App\Http\Controllers\User\BidsController::class, "download_cv"])->name("download-cv");
     });
 });

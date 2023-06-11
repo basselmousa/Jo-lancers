@@ -31,8 +31,18 @@
                         <div class="form-group ">
                             <label for="exampleInputUsername1">Percentage</label>
                             <input name="percentage" value="{{ old("percentage") }}"
-                                   type="text" class="form-control" id="exampleInputUsername1" placeholder="Deliver In Days">
+                                   type="text" class="form-control" id="exampleInputUsername1" placeholder="Percentage">
                             @error('percentage')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
+                        <div class="form-group ">
+                            <label for="exampleInputUsername1">Experience Year</label>
+                            <input name="experience_year" value="{{ old("experience_year") }}"
+                                   type="text" class="form-control" id="exampleInputUsername1" placeholder="Experience Years">
+                            @error('experience_year')
                             <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

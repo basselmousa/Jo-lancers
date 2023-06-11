@@ -80,7 +80,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container box_1620">
 
-                <a class="navbar-brand logo_h" href="index-2.html"><img src="img/logo.png" alt=""></a>
+                {{--                <a class="navbar-brand logo_h" href="index-2.html"><img src="img/logo.png" alt=""></a>--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -94,9 +94,11 @@
                         <li class="nav-item active"><a class="nav-link" href="#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#service">Services</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#project">Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#toprated">Top Rated Providers</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="#" data-toggle="modal"
+                                                       data-target="#exampleModal">Search</a></li>
 
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
@@ -110,12 +112,83 @@
                             </ul>
                         </li>
                     </ul>
+                    <!-- Button trigger modal -->
+                    {{--                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">--}}
+                    {{--                        Launch demo modal--}}
+                    {{--                    </button>--}}
+
+                    <!-- Modal -->
                 </div>
             </div>
         </nav>
     </div>
 </header>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Find A Provider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="whole-wrap">
+                    <div class="container">
+
+                        <div class="section-top-border">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <form method="post" id="search" action="{{ route('search') }}">
+                                        @csrf
+                                        <label for="">Skill</label>
+                                        <div class="form-select mb-10" id="default-select">
+
+                                            <select name="skill">
+                                                @foreach($skills as $skill)
+                                                    <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <div class="form-select mb-10" id="default-select">
+
+                                            <select name="operator">
+
+                                                    <option value="=">=</option>
+                                                    <option value=">"> > </option>
+                                                    <option value="<"> < </option>
+                                                    <option value=">="> >= </option>
+                                                    <option value="<="> <= </option>
+                                                    <option value="<>"> != </option>
+
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="mt-10">
+                                            <input type="text" name="experience_years" placeholder="Experience Years"
+                                                   onfocus="this.placeholder = ''"
+                                                   onblur="this.placeholder = 'Secondary color'" required=""
+                                                   class="single-input-secondary">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('search').submit(); ">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section id="home" class="home_banner_area">
     <div class="container box_1620">
@@ -123,7 +196,7 @@
             <div class="banner_content">
                 <div class="media">
                     <div class="d-flex">
-                        <img src="{{ asset("home/image/jolancer.png") }}"  alt="">
+                        <img src="{{ asset("home/image/jolancer.png") }}" alt="">
                     </div>
                     <div class="media-body">
                         <div class="personal_text">
@@ -239,11 +312,11 @@
 </section>
 
 
-<section id="project" class="home_gallery_area p_120">
+<section id="toprated" class="home_gallery_area p_120">
     <div class="container">
         <div class="main_title">
             <h2>Our Top Rated Providers</h2>
-{{--            <p>Who are in extremely love with eco friendly system.</p>--}}
+            {{--            <p>Who are in extremely love with eco friendly system.</p>--}}
         </div>
 
         <div class="isotope_fillter">
@@ -263,23 +336,25 @@
         @auth("web")
             <div class="gallery_f_inner row imageGallery1">
                 @foreach($providers as $post)
-                    <div class="col-lg-4 col-md-4 col-sm-6 brand @foreach($post->provider->skill as $skill) {{ $skill->skill->category_id }} @endforeach   design print">
+                    <div
+                        class="col-lg-4 col-md-4 col-sm-6 brand @foreach($post->provider->skill as $skill) {{ $skill->skill->category_id }} @endforeach   design print">
 
 
                         <div class="h_gallery_item">
                             <div class="g_img_item">
-                                <img class="img-fluid" src="{{ asset("storage") ."/".$post->provider->image }}" width="340px"
+                                <img class="img-fluid" src="{{ asset("storage") ."/".$post->provider->image }}"
+                                     width="340px"
                                      height="339px" alt="">
                                 {{--                            <a class="light" href="img/gallery/project-1.jpg"><img src="img/gallery/icon.png" alt=""></a>--}}
                             </div>
                             <div class="g_item_text">
 
 
-                                    <h4>{{ $post->provider->full_name }}</h4>
-                                    <p>{{ $post->provider->self_description }}</p>
-{{--                                    <span> Min Bud - Max Bud  ({{ $post->min_bud }} - {{ $post->max_bud }}) </span>--}}
+                                <h4>{{ $post->provider->full_name }}</h4>
+                                <p>{{ $post->provider->self_description }}</p>
+                                {{--                                    <span> Min Bud - Max Bud  ({{ $post->min_bud }} - {{ $post->max_bud }}) </span>--}}
                                 <br>
-{{--                                @if(isset($post->provider->email)){{"mailto:" . $post->provider->email}} @endif--}}
+                                {{--                                @if(isset($post->provider->email)){{"mailto:" . $post->provider->email}} @endif--}}
                                 <a href="{{ route("provider-profile",$post->provider->id) }}"
                                    class="genric-btn info-border circle">
                                     Profile

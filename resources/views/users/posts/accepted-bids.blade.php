@@ -34,7 +34,7 @@
                             <tbody>
                             @foreach($posts as $post)
                                 <tr>
-                                    <td>{{ $post->bid->provider->full_name }}</td>
+                                    <td><a href="{{ route("user.post.provider-profile",$post->bid->provider->id) }}">{{ $post->bid->provider->full_name }}</a></td>
                                     <td>{{ $post->title }}</td>
                                     <td>{{ $post->bid->bid}}</td>
                                     <td>{{ $post->bid->proposal}}</td>

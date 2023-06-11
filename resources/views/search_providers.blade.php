@@ -79,7 +79,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container box_1620">
 
-                <a class="navbar-brand logo_h" href="index-2.html"><img src="img/logo.png" alt=""></a>
+{{--                <a class="navbar-brand logo_h" href="index-2.html"><img src="img/logo.png" alt=""></a>--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -93,7 +93,8 @@
                         <li class="nav-item active"><a class="nav-link" href="{{route("welcome")}}#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#service">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-
+                        <li class="nav-item active"><a class="nav-link" href="#" data-toggle="modal"
+                                                       data-target="#exampleModal">Search</a></li>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">Login</a>
@@ -110,6 +111,71 @@
     </div>
 </header>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Find A Provider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="whole-wrap">
+                    <div class="container">
+
+                        <div class="section-top-border">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <form method="post" id="search" action="{{ route('search') }}">
+                                        @csrf
+                                        <label for="">Skill</label>
+                                        <div class="form-select mb-10" id="default-select">
+
+                                            <select name="skill">
+                                                @foreach($skills as $skill)
+                                                    <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <br>
+                                        <div class="form-select mb-10" id="default-select">
+
+                                            <select name="operator">
+
+                                                <option value="=">=</option>
+                                                <option value=">"> > </option>
+                                                <option value="<"> < </option>
+                                                <option value=">="> >= </option>
+                                                <option value="<="> <= </option>
+                                                <option value="<>"> != </option>
+
+                                            </select>
+                                        </div>
+                                        <br>
+
+                                        <div class="mt-10">
+                                            <input type="text" name="experience_years" placeholder="Experience Years"
+                                                   onfocus="this.placeholder = ''"
+                                                   onblur="this.placeholder = 'Secondary color'" required=""
+                                                   class="single-input-secondary">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('search').submit(); ">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <section class="banner_area">
@@ -131,7 +197,7 @@
 <section id="service" class="feature_area p_120">
     <div class="container">
         <div class="main_title">
-            <h2>{{ $category->name }} Providers</h2>
+            <h2> Providers</h2>
             {{--            <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.--}}
             {{--                You may see some for as low as $.17 each.</p>--}}
         </div>
@@ -139,28 +205,22 @@
             @foreach($providers as $category)
                 <div class="h_gallery_item">
                     <div class="g_img_item">
-                        <img class="img-fluid" src="{{ asset("storage/".$category->image) }}" width="340px" height="339px" alt="">
-                        <a class="light" href="{{ asset("storage/".$category->image) }}" ><img src="{{ asset("storage/".$category->image) }}" alt=""></a>
+                        <img class="img-fluid" src="{{ asset("storage/".$category->provider->image) }}" width="340px" height="339px" alt="">
+                        <a class="light" href="{{ asset("storage/".$category->provider->image) }}" ><img src="{{ asset("storage/".$category->provider->image) }}" alt=""></a>
                     </div>
                     <div class="g_item_text">
-                        <h4>{{ $category->name }}</h4>
-                        <p>{{ $category->skill_description }}</p>
-                        <p>{{ $category->self_description }}</p>
-                        <p>{{ $category->price_for_hour .' '. $category->currency->sign }} /hr</p>
+                        <h4>{{ $category->provider->name }}</h4>
+                        <p>{{ $category->provider->skill_description }}</p>
+                        <p>{{ $category->provider->self_description }}</p>
+                        <p>{{ $category->provider->price_for_hour .' '. optional($category->provider->currency)->sign }} /hr</p>
 
-                        @foreach($category->skill as $skill)
+                        @foreach($category->provider->skill as $skill)
                             <a class="genric-btn primary-border circle" style="cursor: default">{{ $skill->skill->name }}</a>
                         @endforeach
                         <br/>
                         <br/>
-                        <a href="{{ route("provider-profile",$category->id) }}"
-                           class="genric-btn info-border circle">
-                            Profile
-                        </a>
-                        <br/>
-                        <br/>
                         @auth("web")
-                            <a href="mailto:{{$category->email}}" class="genric-btn info-border circle">Info</a>
+                            <a href="mailto:{{$category->provider->email}}" class="genric-btn info-border circle">Info</a>
                         @else
                             <p>Login to contact this provider</p>
                         @endauth

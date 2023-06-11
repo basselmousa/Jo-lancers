@@ -34,12 +34,14 @@ class ProfileController extends Controller
         //
         $request->validate([
             "skill" => "required|not_in:0",
-            "percentage" => "required|numeric|lte:100"
+            "percentage" => "required|numeric|lte:100",
+            "experience_year" => "required|numeric"
         ]);
         ServiceProviderType::create([
             "service_type_id" => $request->skill,
             "percentage" => $request->percentage,
-            "service_provider_id" => auth("provider")->id()
+            "service_provider_id" => auth("provider")->id(),
+            "experience_years" => $request->experience_year
         ]);
         return back()->with("success","Created Successfully");
     }

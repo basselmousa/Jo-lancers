@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="{{ route('provider.post.create',$post->id) }}" method="post" id="add-admin-form" class="forms-sample">
+                    <form action="{{ route('provider.post.create',$post->id) }}" method="post" id="create-bid-form-{{$post->id}}" class="forms-sample">
                         @csrf
 
 
@@ -46,7 +46,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success"
-                        onclick="event.preventDefault(); document.getElementById('add-admin-form').submit(); "
+                        onclick="event.preventDefault(); document.getElementById('create-bid-form-{{$post->id}}').submit(); "
                 >Submit</button>
                 <button type="button" class="btn btn-light" data-dismiss="modal">Cancel</button>
             </div>

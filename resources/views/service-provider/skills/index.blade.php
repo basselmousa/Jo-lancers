@@ -27,6 +27,7 @@
                                 <th>Skill Name</th>
                                 <th>Skill Percentage</th>
                                 <th>Skill Alt Code</th>
+                                <th>Experience Years</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
@@ -36,6 +37,7 @@
                                     <td>{{ $skill->skill->name }}</td>
                                     <td>{{ $skill->percentage }}%</td>
                                     <td>{{ $skill->skill->alt_code }}</td>
+                                    <td>{{ $skill->experience_years }}</td>
                                     <td>
 
                                         <button class="btn btn-outline-danger" onclick=" event.preventDefault();

@@ -48,7 +48,7 @@ class HomeController extends Controller
 //        $skills = ServiceType::whereIn("category_id",$categories->pluck("id"))->pluck("id")->toArray();
 //        $postSkill = PostSkill::whereIn("service_type_id",$skills)->pluck("post_id")->toArray();
 //
-
+        $skills = ServiceType::all();
         $posts = DB::query()->select(["post_skills.*","posts.*","service_types.*","service_categories.*"])
             ->from("posts")
             ->join("post_skills","post_skills.post_id","=","posts.id")
@@ -66,7 +66,7 @@ class HomeController extends Controller
 
 //        dd($providers[0]->provider->skill[0]->skill);
 
-        return view('welcome',compact("totalUsers",'totalPosts','totalProviders',"services",'categories','posts','providers'));
+        return view('welcome',compact("totalUsers",'totalPosts','totalProviders',"services",'categories','posts','providers','skills'));
 
     }
 
@@ -91,5 +91,14 @@ class HomeController extends Controller
     public function downloadCV(Request $request,ServiceProvider $provider)
     {
         return Storage::download($provider->cv,$provider->full_name .".". pathinfo(asset("storage/".$provider->cv),PATHINFO_EXTENSION));
+    }
+
+    public function search(Request $request)
+    {
+        $providers = ServiceProviderType::with(["provider.skill"])->where("service_type_id",$request->skill)->where("experience_years",$request->operator,$request->experience_years)->get();
+//        dd($providers[0]->provider->skill[0]->skill);
+//        return view()
+        $skills = ServiceType::all();
+        return view("search_providers",compact("providers",'skills'));
     }
 }
