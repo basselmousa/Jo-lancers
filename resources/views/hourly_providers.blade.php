@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{asset("home/css/style.css")}}">
     <link rel="stylesheet" href="{{asset("home/css/responsive.css")}}">
     <style>
-        a{
+        a {
             color: black;
         }
     </style>
@@ -93,14 +93,18 @@
                         <li class="nav-item active"><a class="nav-link" href="{{route("welcome")}}#home">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#service">Services</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="#" data-toggle="modal"
+                                                       data-target="#exampleModal">Search</a></li>
 
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true" aria-expanded="false">Login</a>
                             <ul class="dropdown-menu">
                                 <li class="nav-item"><a class="nav-link" href="{{ route("login") }}">User</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route("provider.auth.login") }}">Service</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route("admin.auth.login") }}">Admin</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route("provider.auth.login") }}">Service</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link"
+                                                        href="{{ route("admin.auth.login") }}">Admin</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -111,6 +115,48 @@
 </header>
 
 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Find A Provider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="whole-wrap">
+                    <div class="container">
+
+                        <div class="section-top-border">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <form method="post" id="search" action="{{ route('searchByName',$category->id) }}">
+                                        @csrf
+                                        <label for="">Name</label>
+
+                                        <div class="mt-10">
+                                            <input type="text" name="name" placeholder="Name"
+                                                   onfocus="this.placeholder = ''"
+                                                   onblur="this.placeholder = 'Name'" required=""
+                                                   class="single-input-secondary">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('search').submit(); ">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section class="banner_area">
     <div class="box_1620">
@@ -132,61 +178,99 @@
     <div class="container">
         <div class="main_title">
             <h2>{{ $category->name }} Providers</h2>
-            {{--            <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price.--}}
-            {{--                You may see some for as low as $.17 each.</p>--}}
-        </div>
-        <div class="feature_inner row">
-            @foreach($providers as $category)
-                <div class="h_gallery_item">
-                    <div class="g_img_item">
-                        <img class="img-fluid" src="{{ asset("storage/".$category->image) }}" width="340px" height="339px" alt="">
-                        <a class="light" href="{{ asset("storage/".$category->image) }}" ><img src="{{ asset("storage/".$category->image) }}" alt=""></a>
+            <p>
+            <form action="{{ route("order",$category->id) }}" method="post">
+                @csrf
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <div class="form-select mb-10" id="default-select">
+                            <select name="sort">
+
+                                <option value="rate" {{ optional($sort) == 'rate' ? 'selected' : '' }}>By Rate</option>
+                                <option value="name" {{ optional($sort) != 'rate' ? 'selected' : '' }}>By Name</option>
+
+                            </select>
+                        </div>
+
                     </div>
-                    <div class="g_item_text">
-                        <h4>{{ $category->name }}</h4>
-                        <p>{{ $category->skill_description }}</p>
-                        <p>{{ $category->self_description }}</p>
-                        <p>{{ $category->price_for_hour .' '. $category->currency->sign }} /hr</p>
-
-                        @foreach($category->skill as $skill)
-                            <a class="genric-btn primary-border circle" style="cursor: default">{{ $skill->skill->name }}</a>
-                        @endforeach
-                        <br/>
-                        <br/>
-                        <a href="{{ route("provider-profile",$category->id) }}"
-                           class="genric-btn info-border circle">
-                            Profile
-                        </a>
-                        <br/>
-                        <br/>
-                        @auth("web")
-                            <a href="mailto:{{$category->email}}" class="genric-btn info-border circle">Info</a>
-                        @else
-                            <p>Login to contact this provider</p>
-                        @endauth
-
+                    <div class="col-md-4">
+                        <button class="btn btn-info" type="submit">Submit</button>
 
                     </div>
                 </div>
+            </form>
+            </p>
+        </div>
+        <div class="feature_inner row">
+            @foreach($providers as $category)
+                <div class="col-lg-6 col-md-6 col-sm-6 brand manipul creative"
+                >
+                    <div class="h_gallery_item">
+                        <div class="g_img_item">
+                            <img class="img-fluid" src="{{ asset("storage/".$category->provider->image) }}"
+                                 width="340px"
+                                 height="339px" alt="">
+                            <span style="
+                                position: absolute;
+                                overflow: visible;
+                                z-index: 1;
+                                top: 0%;
+                                right: 15%;
 
-{{--                <div class="col-lg-4 col-md-6">--}}
-{{--                    <a class="text-black " href="{{ route("category.providers",$category->id) }}" >--}}
-{{--                        <div class="feature_item">--}}
+                                color: orange;
+                            "><i class="fa fa-star"></i> {{ $category->rate }}</span>
+                            <a class="light" href="{{ asset("storage/".$category->provider->image) }}"><img
+                                    src="{{ asset("storage/".$category->provider->image) }}" alt=""></a>
+                        </div>
+                        <div class="g_item_text">
+                            <h4>{{ $category->provider->full_name }} </h4>
+                            <p>{{ $category->provider->skill_description }}</p>
+                            <p>{{ $category->provider->self_description }}</p>
+                            <p>{{ $category->provider->price_for_hour .' '. $category->provider->currency->sign }}
+                                /hr</p>
 
-{{--                            <i class="flaticon-city"></i>--}}
+                            @foreach($category->provider->skill as $skill)
+                                <a class="genric-btn primary-border circle"
+                                   style="cursor: default">{{ $skill->skill->name }}</a>
+                            @endforeach
+                            <br/>
+                            <br/>
+                            <a href="{{ route("provider-profile",$category->provider->id) }}"
+                               class="genric-btn info-border circle">
+                                Profile
+                            </a>
+                            <br/>
+                            <br/>
+                            @auth("web")
+                                <a href="mailto:{{$category->email}}" class="genric-btn info-border circle">Info</a>
+                            @else
+                                <p>Login to contact this provider</p>
+                            @endauth
 
-{{--                            <div class="row">--}}
-{{--                                <div class="col-md-8">--}}
-{{--                                    <h4>{{ $category->full_name }}</h4>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-md-4">--}}
-{{--                                    {{ $category->price_for_hour }}--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <p style="flex-wrap: wrap-reverse;overflow-wrap: anywhere;">{{ $category->desc }}</p>--}}
-{{--                        </div>--}}
-{{--                    </a>--}}
-{{--                </div>--}}
+
+                        </div>
+                    </div>
+                </div>
+
+                {{--                <div class="col-lg-4 col-md-6">--}}
+                {{--                    <a class="text-black " href="{{ route("category.providers",$category->id) }}" >--}}
+                {{--                        <div class="feature_item">--}}
+
+                {{--                            <i class="flaticon-city"></i>--}}
+
+                {{--                            <div class="row">--}}
+                {{--                                <div class="col-md-8">--}}
+                {{--                                    <h4>{{ $category->full_name }}</h4>--}}
+                {{--                                </div>--}}
+                {{--                                <div class="col-md-4">--}}
+                {{--                                    {{ $category->price_for_hour }}--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
+                {{--                            <p style="flex-wrap: wrap-reverse;overflow-wrap: anywhere;">{{ $category->desc }}</p>--}}
+                {{--                        </div>--}}
+                {{--                    </a>--}}
+                {{--                </div>--}}
             @endforeach
 
         </div>
@@ -215,7 +299,7 @@
                     <p>If you have any problems, do not hesitate to contact me</p>
 
                     <div id="mc_embed_signup">
-                        <a  style="cursor: pointer;color: #007bff" onclick="window.open('mailto:admin@jolancers.com')">admin@jolancers.com</a>
+                        <a style="cursor: pointer;color: #007bff" onclick="window.open('mailto:admin@jolancers.com')">admin@jolancers.com</a>
 
                     </div>
                 </aside>
