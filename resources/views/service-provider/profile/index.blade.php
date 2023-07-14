@@ -90,7 +90,7 @@
                             Per Hour
                           </span>
                                     <span class="float-right text-muted">
-                                        {{ auth("provider")->user()->price_for_hour . ' '.auth("provider")->user()->currency->sign . ' /hr' }}
+                                        {{ auth("provider")->user()->price_for_hour . ' '.optional(auth("provider")->user()->currency)->sign . ' /hr' }}
 
                           </span>
                                 </p>

@@ -219,6 +219,13 @@
                         @endforeach
                         <br/>
                         <br/>
+                        <a href="{{ route("provider-profile",$category->provider->id) }}"
+                            class="genric-btn info-border circle">
+                             Profile
+                         </a>
+                        <br/>
+                        <br/>
+
                         @auth("web")
                             <a href="mailto:{{$category->provider->email}}" class="genric-btn info-border circle">Info</a>
                         @else

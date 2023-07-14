@@ -23,6 +23,8 @@ Route::get("/category/{category}",[\App\Http\Controllers\HomeController::class,"
 Route::get("/providerProfile/{provider}",[\App\Http\Controllers\HomeController::class,"providerProfile"])->name("provider-profile");
 Route::get("/providerProfile/{provider}/download",[\App\Http\Controllers\HomeController::class,"downloadCV"])->name("download-cv");
 Route::post("/search",[\App\Http\Controllers\HomeController::class,"search"])->name("search");
+Route::post("/searchByName/{category}",[\App\Http\Controllers\HomeController::class,"searchByName"])->name("searchByName");
+Route::post("/category/{category}",[\App\Http\Controllers\HomeController::class,"categoryProviders"])->name("order");
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

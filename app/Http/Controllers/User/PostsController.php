@@ -39,7 +39,7 @@ class PostsController extends Controller
             "max_bud" => "required|numeric|gt:min_bud",
             "skills" => "required",
             "currency" => "required",
-            "image" => "required|mimes:jpg,jpeg,png|max:10000"
+            "image" => "nullable|mimes:jpg,jpeg,png|max:10000"
         ]);
 
         $post = Post::create([
@@ -71,7 +71,8 @@ class PostsController extends Controller
             return $request->file("image")->store("posts");
         }
         else{
-            throw ValidationException::withMessages(["image" => "image is required"]);
+            //throw ValidationException::withMessages(["image" => "image is required"]);
+            return null;
         }
     }
 
